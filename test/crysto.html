@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="jquery-1.10.0.min.js"></script>
+    <script src="../Events.js"></script>
+    <script src="../Crysto.js"></script>
+    <script>
+        var Crysto = tl.Crysto;
+        var crysto = new Crysto();
+        $(document).ready(function(){
+            var onstart = function(){
+                console.log('crysto is started.');
+                $('.startTime').html(crysto.startTime);
+            };
+
+            var onstop = function(){
+                console.log('crysto is stopped.');
+                $('.stopTime').html(crysto.stopTime);
+            };
+            var oninterval = function(){
+                console.log('crysto intervals on ' + crysto.intervalRounds);
+                $('.passed').html(crysto.passed);
+                $('.intervalRounds').html(crysto.intervalRounds);
+                $('.passedOffset').html(crysto.passedOffset);
+            };
+
+            /*
+            crysto.on('start', onstart);
+            crysto.on('stop', onstop);
+            crysto.on('interval',oninterval);
+            */
+
+            $('.start').on('click', function(){crysto.start();});
+            $('.stop').on('click', function(){crysto.stop()});
+            $('.reset').on('click', function(){
+                crysto.reset();
+                $('.startTime').html(crysto.startTime);
+                $('.stopTime').html(crysto.stopTime);
+                $('.passed').html(crysto.passed);
+                $('.intervalRounds').html(crysto.intervalRounds);
+                $('.passedOffset').html(crysto.passedOffset);
+            });
+            $('.start-event').click(function(){
+                $(this).text(function(i, text){
+                    if(text=='on start') crysto.on('start', onstart);
+                    else crysto.off('start', onstart);
+                    text = (text == 'on start' ? 'off start' :'on start');
+                    return text;
+                });
+            }).click();
+            $('.stop-event').click(function(){
+                $(this).text(function(i, text){
+                    if(text=='on stop') crysto.on('stop', onstop);
+                    else crysto.off('stop', onstop);
+                    text = (text == 'on stop' ? 'off stop' :'on stop');
+                    return text;
+                });
+            }).click();
+            $('.interval-event').click(function(){
+                $(this).text(function(i, text){
+                    if(text=='on interval') crysto.on('interval', oninterval);
+                    else crysto.off('interval', oninterval);
+                    text = (text == 'on interval' ? 'off interval' :'on interval');
+                    return text;
+                });
+            }).click();
+
+        });
+    </script>
+
+</head>
+<body>
+
+<br><br><br><br>
+<button class="btn btn-large start">start</button>
+<button class="btn btn-large stop">stop</button>
+<button class="btn btn-large reset">reset</button><br>
+<button class="btn btn-large start-event">on start</button>
+<button class="btn btn-large stop-event">on stop</button>
+<button class="btn btn-large interval-event">on interval</button>
+
+<br><br>
+<div class="row">
+    <div class="prompt">startTime: </div><div class="value startTime"></div>
+    <div class="prompt">stopTime: </div><div class="value stopTime"></div>
+</div>
+<div class="row">
+    <div class="prompt">passed: </div><div class="value passed"></div>
+    <div class="prompt">intervalRounds: </div><div class="value intervalRounds"></div>
+    <div class="prompt">passedOffset: </div><div class="value passedOffset"></div>
+</div>
+</body>
+</html>
